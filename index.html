@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>whalebanana86 · 포트폴리오</title>
+<meta name="description" content="흩어진 일을 보이게 만드는 개발자. AI와 함께 일하는 맥 앱, AI 워크플로 도구, IoT·백엔드 시스템을 커밋 그래프로 정리했습니다.">
+<meta property="og:title" content="whalebanana86 · 포트폴리오">
+<meta property="og:description" content="흩어진 일을 보이게 만드는 개발자. 앱·AI 워크플로·백엔드 세 브랜치로 정리한 공개 저장소 14개.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0d0e10">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='5' fill='%230d0e10' stroke='%23b58cff' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0e10;
+    --surface: #141619;
+    --surface-2: #1a1d21;
+    --text: #e8e6e1;
+    --text-2: #a9adb4;
+    --muted: #6e737b;
+    --rule: #22252a;
+    --apps: #b58cff;
+    --workflow: #5fd0a0;
+    --backend: #f0a93b;
+    --del: #ff7b72;
+    --add: #6fdc8c;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    --sans: "IBM Plex Sans KR", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 400 15px/1.7 var(--sans);
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  a { color: inherit; }
+  img { display: block; max-width: 100%; height: auto; }
+  code, .mono { font-family: var(--mono); }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+  /* ---------- top bar ---------- */
+  .bar {
+    position: sticky; top: 0; z-index: 5;
+    background: rgba(13,14,16,.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .bar .wrap { display: flex; align-items: center; gap: 24px; height: 52px; font: 500 13px var(--mono); }
+  .bar .who { display: flex; align-items: center; gap: 10px; }
+  .bar .who i { width: 10px; height: 10px; background: var(--text); display: inline-block; }
+  .filters { display: flex; gap: 4px; margin-left: auto; }
+  .filters button {
+    font: 500 12.5px var(--mono);
+    color: var(--text-2);
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 5px 10px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 7px;
+    white-space: nowrap; flex: none;
+  }
+  .filters button:hover { color: var(--text); }
+  .filters button[aria-pressed="true"] { color: var(--text); border-color: var(--rule); background: var(--surface); }
+  .filters button i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .bar .gh { color: var(--text-2); text-decoration: none; }
+  .bar .gh:hover { color: var(--text); }
+
+  /* ---------- hero ---------- */
+  .hero { display: grid; grid-template-columns: 1fr 360px; gap: 64px; padding: 88px 0 72px; align-items: end; }
+  .prompt { font: 400 13.5px var(--mono); color: var(--muted); margin: 0 0 28px; }
+  .prompt b { color: var(--text-2); font-weight: 400; }
+  .hero h1 {
+    margin: 0;
+    font: 700 clamp(40px, 5.6vw, 76px)/1.12 var(--sans);
+    letter-spacing: -.035em;
+  }
+  .hero h1 em { font-style: normal; color: var(--muted); }
+  .hero .lede { margin: 28px 0 0; max-width: 560px; color: var(--text-2); font-size: 17px; }
+
+  .shortlog { border: 1px solid var(--rule); font: 400 12.5px/1.6 var(--mono); }
+  .shortlog > div { padding: 14px 16px; }
+  .shortlog > div + div { border-top: 1px solid var(--rule); }
+  .shortlog h2 { margin: 0 0 10px; font: 500 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+  .branches { display: grid; grid-template-columns: auto 1fr auto; gap: 4px 10px; align-items: center; }
+  .branches i { width: 8px; height: 8px; border-radius: 50%; }
+  .branches span:nth-child(3n) { color: var(--muted); text-align: right; }
+  .langbar { display: flex; height: 8px; margin: 2px 0 10px; gap: 2px; }
+  .langbar span { display: block; height: 100%; }
+  .langs { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; color: var(--text-2); }
+  .langs span:nth-child(even) { color: var(--muted); }
+  .range { color: var(--text-2); display: flex; justify-content: space-between; }
+
+  /* ---------- log ---------- */
+  .log-head {
+    display: grid; grid-template-columns: 84px 108px minmax(0, 1fr) auto; gap: 0 16px;
+    font: 500 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .08em;
+    padding: 0 0 10px; border-bottom: 1px solid var(--rule);
+  }
+  .log { list-style: none; margin: 0; padding: 0; }
+  .commit {
+    display: grid;
+    grid-template-columns: 84px 108px minmax(0, 1fr) auto;
+    gap: 0 16px;
+    position: relative;
+    transition: opacity .2s;
+  }
+  .commit.dim { opacity: .22; }
+  .rail { position: relative; grid-row: 1 / span 2; --k: 1; }
+  .rail > span { left: calc(var(--x) * var(--k) * 1px); }
+  .log { position: relative; }
+  svg.graph { position: absolute; left: 0; top: 0; width: 84px; overflow: visible; pointer-events: none; z-index: 0; }
+  svg.graph path { fill: none; stroke-width: 2; transition: opacity .2s; }
+  svg.graph .dim { opacity: .22; }
+  .rail { z-index: 1; }
+  .rail .node {
+    position: absolute; top: 22px; width: 14px; height: 14px; margin-left: -7px;
+    border-radius: 50%; background: var(--bg); border: 3px solid;
+  }
+  .commit.head .rail .node { width: 18px; height: 18px; margin-left: -9px; top: 20px; }
+
+  .commit > button {
+    all: unset;
+    grid-column: 2 / 5;
+    display: grid; grid-template-columns: 108px minmax(0, 1fr) auto; gap: 0 16px;
+    padding: 18px 0 18px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--rule);
+  }
+  .commit > button:focus-visible { outline: 2px solid var(--text-2); outline-offset: -2px; }
+  .commit > button:hover .title { text-decoration: underline; text-decoration-color: var(--muted); text-underline-offset: 4px; }
+  .date { font: 400 13px/26px var(--mono); color: var(--muted); }
+  .line1 { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+  .title { font: 600 18px/26px var(--sans); letter-spacing: -.01em; }
+  .repo { font: 400 12.5px var(--mono); color: var(--muted); }
+  .ref { font: 500 11.5px/1 var(--mono); padding: 4px 6px; border: 1px solid; }
+  .ref.headref { color: #0d0e10; background: var(--text); border-color: var(--text); }
+  .ref.tag { color: var(--text-2); border-color: #3a3e45; }
+  .ref.tag::before { content: "tag: "; color: var(--muted); }
+  .summary { margin: 2px 0 0; color: var(--text-2); font-size: 14.5px; }
+  .kind { font: 400 12px/26px var(--mono); color: var(--muted); text-align: right; white-space: nowrap; display: flex; gap: 12px; }
+  .kind { align-items: center; height: 26px; }
+  .kind .chev { transition: transform .2s; transform-origin: 50% 50%; flex: none; }
+  .commit.open .kind .chev { transform: rotate(90deg); }
+
+  .detail {
+    grid-column: 3 / 5;
+    display: none;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    gap: 32px;
+    padding: 24px 0 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .commit.open > button { border-bottom-color: transparent; }
+  .commit.open .detail { display: grid; }
+  .detail.noimg { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .diff { margin: 0 0 20px; background: var(--surface); border: 1px solid var(--rule); font: 400 13.5px/1.65 var(--mono); }
+  .diff .hunk { padding: 8px 14px; color: var(--muted); border-bottom: 1px solid var(--rule); font-size: 12px; }
+  .diff div.l { padding: 6px 14px 6px 32px; position: relative; font-family: var(--sans); font-size: 14px; }
+  .diff div.l::before { position: absolute; left: 14px; font-family: var(--mono); }
+  .diff .del { background: rgba(255,123,114,.08); color: #ffb3ad; }
+  .diff .del::before { content: "-"; color: var(--del); }
+  .diff .add { background: rgba(111,220,140,.08); color: #b5f0c4; }
+  .diff .add::before { content: "+"; color: var(--add); }
+  .detail p { margin: 0 0 18px; color: var(--text-2); }
+  .facts { display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; margin: 0; font: 400 12.5px/1.7 var(--mono); }
+  .facts dt { color: var(--muted); }
+  .facts dd { margin: 0; color: var(--text); }
+  .facts a { color: var(--text); text-underline-offset: 3px; text-decoration-color: var(--muted); }
+  .shot { margin: 0; }
+  .shot img { border: 1px solid var(--rule); }
+  .shot figcaption { margin-top: 8px; font: 400 12px var(--mono); color: var(--muted); }
+  .metric { border: 1px solid var(--rule); background: var(--surface); }
+  .metric .big { padding: 18px 18px 6px; font: 700 64px/1 var(--mono); letter-spacing: -.04em; }
+  .metric .big small { font-size: 22px; color: var(--muted); margin-left: 4px; }
+  .metric .cap { padding: 0 18px 16px; color: var(--text-2); font-size: 13.5px; }
+  .metric table { width: 100%; border-collapse: collapse; font: 400 12.5px var(--mono); }
+  .metric td { padding: 9px 18px; border-top: 1px solid var(--rule); color: var(--text-2); }
+  .metric td:last-child { text-align: right; color: var(--text); }
+  .grid9 { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--rule); }
+  .grid9 span { padding: 12px 14px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-size: 13.5px; }
+  .grid9 span:nth-child(3n) { border-right: 0; }
+  .grid9 span:nth-last-child(-n+3) { border-bottom: 0; }
+  .grid9 b { display: block; font: 400 11px var(--mono); color: var(--muted); }
+
+  /* ---------- footer ---------- */
+  .tail { padding: 88px 0 96px; display: grid; grid-template-columns: 84px 1fr; gap: 16px; }
+  .tail pre { margin: 0 0 28px; font: 400 13.5px/1.8 var(--mono); color: var(--muted); white-space: pre-wrap; }
+  .tail pre b { color: var(--text); font-weight: 400; }
+  .tail h2 { margin: 0; font: 600 22px/1.5 var(--sans); letter-spacing: -.01em; }
+  .tail h2 a { text-underline-offset: 5px; text-decoration-thickness: 1px; }
+  .tail p { color: var(--muted); font-size: 13px; margin: 24px 0 0; max-width: 560px; }
+
+
+  @media (max-width: 960px) {
+    .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 56px; }
+    .detail, .detail.noimg { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 680px) {
+    .wrap { padding: 0 16px; }
+    .bar .who span, .bar .gh { display: none; }
+    .filters { margin-left: 0; overflow-x: auto; scrollbar-width: none; }
+    .filters button { padding: 5px 8px; }
+    .log-head { display: none; }
+    .commit { grid-template-columns: 56px minmax(0, 1fr); }
+    .rail { grid-row: 1 / span 2; --k: .66; }
+    .commit > button { grid-column: 2; grid-template-columns: 1fr; }
+    .date { line-height: 1.6; }
+    .kind { display: none; }
+    .tail { grid-template-columns: 1fr; }
+    .tail > div:first-child { display: none; }
+    .detail { grid-column: 2; }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <div class="who"><i></i><span>whalebanana86</span></div>
+    <div class="filters" role="group" aria-label="브랜치로 거르기">
+      <button type="button" data-lane="all" aria-pressed="true">--all</button>
+      <button type="button" data-lane="apps" aria-pressed="false"><i style="background:var(--apps)"></i>apps</button>
+      <button type="button" data-lane="workflow" aria-pressed="false"><i style="background:var(--workflow)"></i>ai-workflow</button>
+      <button type="button" data-lane="backend" aria-pressed="false"><i style="background:var(--backend)"></i>backend</button>
+    </div>
+    <a class="gh" href="https://github.com/whalebanana86">github ↗</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <p class="prompt">$ <b>git log --graph --all --author=whalebanana86</b></p>
+      <h1>흩어진 일을<br>보이게 만드는<br>개발자<em>.</em></h1>
+      <p class="lede">백엔드에서 출발해, 지금은 AI와 함께 일하는 방식을 도구로 만들고 있습니다. 공개 저장소를 최근에 손댄 순서로 늘어놓았어요. 줄을 누르면 펼쳐집니다.</p>
+    </div>
+    <aside class="shortlog" aria-label="요약">
+      <div>
+        <h2>branches</h2>
+        <div class="branches">
+          <i style="background:var(--apps)"></i><span>apps</span><span>5</span>
+          <i style="background:var(--workflow)"></i><span>ai-workflow</span><span>4</span>
+          <i style="background:var(--backend)"></i><span>backend</span><span>5</span>
+        </div>
+      </div>
+      <div>
+        <h2>공개 코드 언어 비율</h2>
+        <div class="langbar">
+          <span style="width:29.6%;background:#d8d4cc"></span>
+          <span style="width:29.3%;background:#9a968f"></span>
+          <span style="width:28.1%;background:#62605b"></span>
+          <span style="width:13%;background:#3a3936"></span>
+        </div>
+        <div class="langs">
+          <span>Swift</span><span>29.6%</span>
+          <span>Rust</span><span>29.3%</span>
+          <span>TypeScript</span><span>28.1%</span>
+          <span>Shell · Java · 기타</span><span>13.0%</span>
+        </div>
+      </div>
+      <div class="range"><span>2026-04-16</span><span>→</span><span>2026-11-06</span></div>
+    </aside>
+  </section>
+
+  <div class="log-head" aria-hidden="true"><span>graph</span><span>updated</span><span>project</span><span>kind</span></div>
+  <ol class="log" id="log"></ol>
+
+  <section class="tail">
+    <div aria-hidden="true"></div>
+    <div>
+      <pre>$ <b>git remote -v</b>
+origin  https://github.com/whalebanana86 (fetch)</pre>
+      <h2>코드와 README 전문은 <a href="https://github.com/whalebanana86">github.com/whalebanana86</a>에 있습니다.</h2>
+      <p>모든 내용은 각 저장소의 README를 바탕으로 했고, 앱 화면은 저장소가 지어낸 예시 데이터로 찍은 것입니다. 언어 비율은 공개 저장소 코드 크기 기준입니다.</p>
+    </div>
+  </section>
+</main>
+
+
+<script>
+const LANES = ["apps", "workflow", "backend"];
+const X = { main: 10, apps: 32, workflow: 52, backend: 72 };
+const S = "assets/shots/";
+
+const COMMITS = [
+  { lane: "apps", open: true, date: "2026-11-06", title: "코드행방", repo: "ai-terminal", head: true, tag: "v0.17.1",
+    summary: "Claude Code·Codex를 여러 개 돌릴 때, 각 AI가 어느 워크트리·브랜치에서 일하는지 보며 대화를 이어 가는 맥 앱",
+    minus: "그 AI 지금 어느 브랜치에서 일하고 있지?",
+    plus: "대화를 고르면 Git 그래프와 파일 트리가 그 워크트리로 함께 바뀐다",
+    body: "대화는 저장소·워크트리별로 모이고, 이어가기 버튼 하나로 원래 CLI에서 계속합니다. 화면만 옮길 뿐 체크아웃은 하지 않습니다.",
+    facts: [["lang", "TypeScript · Rust"], ["commits", "159"], ["os", "macOS 12+"]],
+    img: "terminal.png", alt: "세 칸 화면: Git 그래프, 세션과 대화, 파일 트리" },
+  { lane: "apps", open: true, date: "2026-11-06", title: "Feather", repo: "ai-browser",
+    summary: "가볍고 빠르고 추적하지 않는 macOS 브라우저. WebKit을 Swift/AppKit으로 감쌌다",
+    minus: "Chromium 계열로는 탭 20개를 2GB 안에 넣기 어렵다",
+    plus: "탭은 6개만 실제로 돌리고, 나머지는 주소·스크롤 위치만 남긴다",
+    body: "5초마다 실제 메모리를 재서 1GB를 넘으면 가장 무거운 백그라운드 탭부터 내립니다. 소리·카메라를 쓰는 탭은 남깁니다.",
+    facts: [["lang", "Swift"], ["size", "약 600KB"], ["os", "macOS 13+"]],
+    metric: { big: "1.00", unit: "GB", cap: "탭 20개를 연 뒤 안정된 메모리", rows: [["탭 중단을 끄면", "3.43 GB"], ["첫 화면 표시 중앙값", "0.56 s"], ["빈 새 탭", "37 MB"]] } },
+  { lane: "apps", open: true, date: "2026-11-05", title: "AI Translate", repo: "ai-translate",
+    summary: "화면 어디서든 원문 자리에 번역을 그리는 메뉴 막대 앱",
+    minus: "브라우저 번역은 앱 화면, PDF, 영상 자막에서 안 된다",
+    plus: "⌘⇧1로 렌즈를 올리면 원문과 같은 색·크기로 그 자리에 번역한다",
+    body: "스크롤하거나 자막이 바뀌면 새로 나온 글만 다시 번역합니다. 엔진은 로컬 LLM, Claude Code, Codex 중에서 고릅니다.",
+    facts: [["lang", "Swift"], ["commits", "74"], ["os", "macOS 15+"]],
+    img: "translate.png", alt: "원문 화면과 번역 렌즈를 올린 화면 비교" },
+  { lane: "apps", open: true, date: "2026-10-29", title: "이걸내가", repo: "ai-worklog", tag: "v1.8.0",
+    summary: "AI와 함께한 일을 날짜·프로젝트별로 모아 보는 맥 앱",
+    minus: "그래서 내가 뭘 했더라?",
+    plus: "흩어진 AI 대화를 모아 \"이날 한 일\" 몇 줄로 줄여 보여 준다",
+    body: "Claude Code·Codex·LM Studio 기록을 원본이 지워지기 전에 내 맥의 보관함으로 옮깁니다. 한국어·영어·일본어를 지원합니다.",
+    facts: [["lang", "Swift"], ["commits", "37"], ["os", "macOS 14+"]],
+    img: "worklog.png", alt: "프로젝트 화면: 요청 그래프와 날짜별 AI 요약" },
+  { lane: "apps", open: true, date: "2026-10-29", title: "Dolmen", repo: "ai-dolmen", tag: "v0.2.0",
+    summary: "테이블의 역사를 Git에 남기는 오픈소스 데이터베이스 클라이언트",
+    minus: "이 컬럼 언제 누가 바꿨지?",
+    plus: "테이블 구조가 바뀔 때마다 파일로 써서 코드 옆 저장소에 커밋한다",
+    body: "브랜치를 바꾸면 로컬 DB를 그때 구조로 맞추고, 운영 DB는 읽기 전용으로 엽니다. PostgreSQL·MySQL·MariaDB·Redis·MongoDB에 연결합니다.",
+    facts: [["lang", "Rust · TypeScript"], ["commits", "66"], ["os", "macOS · Windows · Linux"]],
+    img: "dolmen.png", alt: "스키마 트리, SQL 편집기, 조회 결과 표" },
+  { lane: "workflow", date: "2026-09-21", title: "AI Spec Gate", repo: "ai-spec-gate", kind: "rules",
+    summary: "사람은 무엇이 맞는지 정하고, AI는 그 규칙에 맞게 만들고 검사하는 명세 주도 개발 규칙",
+    minus: "AI가 모르는 걸 추측하고, 돌리지 않은 테스트를 통과했다고 말한다",
+    plus: "위험한 변경은 /feature로 명세·승인을 먼저 거치고, AC와 INV를 둘 다 통과해야 완료",
+    body: "AC는 이번에 새로 만족해야 할 기준, INV는 작업 전후 모두 깨지면 안 되는 규칙입니다. 오타 같은 작은 변경은 /fix로 가볍게 갑니다.",
+    facts: [["lang", "Shell"], ["for", "Claude Code"]] },
+  { lane: "workflow", date: "2026-09-17", title: "nest-code-explorer", repo: "nest-code-explorer", kind: "npm",
+    summary: "NestJS API의 실행 경로를 브라우저에서 클릭하며 따라가는 정적 분석 탐색기",
+    minus: "Controller를 열고, Usecase를 찾고, Service를 열고, Repository를 찾고…",
+    plus: "npx nest-code-explorer 한 줄로 DB·큐·외부 API까지 이어지는 경로를 본다",
+    body: "앱을 띄우지도, DB에 붙지도, 코드를 고치지도 않고 TypeScript 소스만 분석합니다. Queue 너머 Worker까지 따라갑니다.",
+    facts: [["lang", "TypeScript"], ["run", "npx nest-code-explorer"]],
+    img: "explorer.png", alt: "POST /v1/orders/:id/cancel 실행 경로 그래프" },
+  { lane: "workflow", date: "2026-08-24", title: "검증 서브에이전트 하네스", repo: "ai-subagents-portfolio", kind: "harness",
+    summary: "운영 NestJS API(라우트 152개)에 붙인 Claude Code 검증 에이전트 4종과 실행 환경",
+    minus: "코드 리뷰만으로는 구조적인 권한 누락을 놓친다",
+    plus: "test-writer · sql-reviewer · convention-reviewer가 맥락을 나눠 각자 검증한다",
+    body: "에이전트 정의, 커맨드, hook을 모두 저장소에 두어 사람이 바뀌어도 같은 절차가 재현됩니다.",
+    facts: [["stack", "NestJS · TypeORM · MariaDB"], ["when", "2026-07"]],
+    metric: { big: "30", unit: "/58", cap: "권한 데코레이터가 붙었지만 실제로는 권한 검사를 건너뛰던 라우트", rows: [["원인", "Guard 안의 조기 return true"], ["인증 데코레이터 누락", "35개 분류"], ["잘못된 Action 리터럴", "4건"]] } },
+  { lane: "backend", date: "2026-08-24", title: "스마트 벤딩머신 메시징 · 재고", repo: "smart-vending-machine-platform", kind: "case study",
+    summary: "라즈베리파이 자판기와 Spring Boot 서버를 Amazon MQ로 잇고, 물리 슬롯과 상품을 동적으로 매핑",
+    minus: "현장 네트워크가 끊기면 토출 명령이 유실되고, 이상 메시지는 무한 재큐잉된다",
+    plus: "TLS AMQP 양방향 연결 + Durable Queue, 포이즌 메시지는 재큐잉 없이 격리",
+    body: "옵션·소모품·세트 상품을 모터 슬롯으로 해석해 실시간으로 재고를 차감하고, 감사 이력을 남깁니다. 설계와 구현을 혼자 맡았습니다.",
+    facts: [["stack", "Java 21 · Spring Boot 3.5"], ["mq", "Spring AMQP · Amazon MQ"], ["db", "PostgreSQL · QueryDSL"]] },
+  { lane: "backend", date: "2026-08-24", title: "RFID 음식물쓰레기 종량기 플랫폼", repo: "smart-waste-iot-platform", kind: "case study",
+    summary: "종량기를 실시간 제어하고 감량률에 따라 주민에게 포인트를 주는 IoT 플랫폼",
+    minus: "불안정한 현장 네트워크에서 끊긴 연결이 '유령 소켓'으로 남는다",
+    plus: "WebSocket과 업무 로직을 RabbitMQ로 떼고, 하트비트로 죽은 연결을 걷어 낸다",
+    body: "여러 백엔드가 쓰는 TypeORM 엔티티는 Git Submodule로 한곳에서 관리하고, 배출 통계는 Next.js 14 대시보드로 보여 줍니다.",
+    facts: [["stack", "NestJS · WebSocket · RabbitMQ"], ["web", "Next.js 14"]] },
+  { lane: "workflow", date: "2026-08-19", title: "커밋 기반 작업 추적", repo: "commit-based-work-tracking", kind: "actions",
+    summary: "커밋을 작업 단위로 묶어 GitHub Issue와 Projects 칸반을 자동으로 유지하는 Actions",
+    minus: "\"회원 탈퇴\" 커밋 안에 공통 배치 프레임워크가 들어 있었다",
+    plus: "커밋 메시지 대신 건드린 경로로 작업을 판정한다",
+    body: "상태는 저장소가 아닌 Issue 본문에 둬서 푸시 루프와 브랜치 충돌을 피합니다. 판정과 반영은 Actions 위의 Claude Code가 합니다.",
+    facts: [["runs on", "GitHub Actions"], ["with", "Claude Code"]],
+    img: "roadmap-crop.png", alt: "GitHub Projects 로드맵 화면" },
+  { lane: "backend", date: "2026-08-19", title: "System Design Labs", repo: "system-design-labs", kind: "labs",
+    summary: "시스템 설계 주제 아홉 개를 직접 띄워 볼 수 있게 구현한 저장소",
+    minus: "설계 면접 답안은 그림으로만 남는다",
+    plus: "주제마다 독립된 docker compose로 실제로 띄워 확인한다",
+    body: "스택은 모두 같고 포트가 겹치지 않아 여러 개를 동시에 띄울 수 있습니다.",
+    facts: [["stack", "NestJS 11 · Prisma 6"], ["data", "PostgreSQL 16 · Redis 7"]],
+    nine: ["URL 단축기", "뉴스 피드", "채팅", "동영상 스트리밍", "파일 저장소", "검색 자동완성", "알림", "택시 호출", "결제"] },
+  { lane: "backend", date: "2026-05-08", title: "대용량 로그 분석 시스템", repo: "log-system", kind: "system",
+    summary: "Kafka와 Elasticsearch로 로그를 수집·저장·집계·시각화",
+    minus: "어떤 서비스가 지금 깨지고 있는지 늦게 안다",
+    plus: "Kafka Streams로 서비스별 분 단위 집계를 만들어 원시 로그와 함께 본다",
+    body: "원시 로그는 Kafka를 거쳐 Elasticsearch에 쌓이고, 집계 결과는 별도 토픽과 인덱스로 나가 Kibana에서 함께 봅니다.",
+    facts: [["stack", "Java 21 · Spring Boot 4"], ["data", "Kafka · Elasticsearch · Kibana"]] },
+  { lane: "backend", date: "2026-04-16", title: "폐쇄형 AI RAG", repo: "ai-rag", kind: "system",
+    summary: "문서를 나눠 pgvector에 넣고, Gemini 또는 OpenAI로 근거 있는 답을 만드는 RAG 서비스",
+    minus: "LLM이 사내 문서를 모른 채 그럴듯하게 답한다",
+    plus: "질문과 가까운 문서 조각을 찾아 근거로 붙여 답한다",
+    body: "긴 문서는 약 800자 단위로 자동 청킹하고, pdf·md·txt 업로드를 지원합니다. 외부 없이 도는 stub 모드도 있습니다.",
+    facts: [["stack", "Java · Spring Boot"], ["db", "PostgreSQL + pgvector"]] },
+];
+
+// lane ranges: first (top) and last (bottom) index of each lane
+const range = {};
+COMMITS.forEach((c, i) => {
+  range[c.lane] ??= [i, i];
+  range[c.lane][1] = i;
+});
+
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+
+function rail(i, lane) {
+  return `<span class="node" style="--x:${X[lane]};border-color:var(--${lane})"></span>`;
+}
+
+// branch lines: each lane runs between its newest and oldest commit, then curves into main
+const NS = "http://www.w3.org/2000/svg";
+let activeLane = "all";
+function drawGraph() {
+  const log = document.getElementById("log");
+  let svg = log.querySelector("svg.graph");
+  if (!svg) { svg = document.createElementNS(NS, "svg"); svg.setAttribute("class", "graph"); svg.setAttribute("aria-hidden", "true"); log.prepend(svg); }
+  const k = parseFloat(getComputedStyle(log.querySelector(".rail")).getPropertyValue("--k")) || 1;
+  const top = log.getBoundingClientRect().top;
+  const rows = [...log.querySelectorAll(".commit")];
+  const ys = rows.map(li => li.getBoundingClientRect().top - top + 29);
+  const H = log.offsetHeight;
+  const x = l => X[l] * k;
+  let d = "", trunkTop = Infinity;
+  const paths = LANES.map(l => {
+    const [a, b] = range[l];
+    const y1 = ys[a], y2 = ys[b], yb = y2 + 44;
+    trunkTop = Math.min(trunkTop, yb);
+    return `<path data-lane="${l}" stroke="var(--${l})" d="M${x(l)} ${y1} V${y2 + 6} C${x(l)} ${y2 + 30} ${x("main")} ${y2 + 22} ${x("main")} ${yb}"/>`;
+  });
+  const rootY = H + 40;
+  svg.setAttribute("height", rootY + 10);
+  svg.innerHTML = `<path stroke="#4a4e55" d="M${x("main")} ${trunkTop} V${rootY}"/>` + paths.join("") +
+    `<circle cx="${x("main")}" cy="${rootY}" r="5" fill="var(--bg)" stroke="#4a4e55" stroke-width="2"/>` +
+    `<text x="${x("main") + 14}" y="${rootY + 4}" fill="#6e737b" font-family="JetBrains Mono, monospace" font-size="11">main</text>`;
+  svg.querySelectorAll("path[data-lane]").forEach(p => p.classList.toggle("dim", activeLane !== "all" && p.dataset.lane !== activeLane));
+}
+
+function detail(c) {
+  const facts = [...c.facts, ["repo", `<a href="https://github.com/whalebanana86/${c.repo}">${c.repo} ↗</a>`]]
+    .map(([k, v]) => `<dt>${k}</dt><dd>${k === "repo" ? v : esc(v)}</dd>`).join("");
+  let side = "";
+  if (c.img) side = `<figure class="shot"><img src="${S + c.img}" alt="${esc(c.alt)}" loading="lazy"><figcaption>지어낸 예시 데이터로 찍은 화면</figcaption></figure>`;
+  else if (c.metric) side = `<div class="metric"><div class="big">${c.metric.big}<small>${c.metric.unit}</small></div><div class="cap">${esc(c.metric.cap)}</div><table>${c.metric.rows.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("")}</table></div>`;
+  else if (c.nine) side = `<div class="grid9">${c.nine.map((n, k) => `<span><b>0${k + 1}</b>${n}</span>`).join("")}</div>`;
+  return `<div class="detail${side ? "" : " noimg"}">
+    <div>
+      <div class="diff"><div class="hunk">@@ 문제 → 해결 @@</div><div class="l del">${esc(c.minus)}</div><div class="l add">${esc(c.plus)}</div></div>
+      <p>${esc(c.body)}</p>
+      <dl class="facts">${facts}</dl>
+    </div>
+    ${side ? `<div>${side}</div>` : ""}
+  </div>`;
+}
+
+document.getElementById("log").innerHTML = COMMITS.map((c, i) => {
+  const refs = (c.head ? `<span class="ref headref">HEAD → main</span>` : "") + (c.tag ? `<span class="ref tag">${c.tag}</span>` : "");
+  const kind = c.kind || "app";
+  return `<li class="commit${c.head ? " head" : ""}${c.open ? " open" : ""}" data-lane="${c.lane}">
+    <div class="rail" aria-hidden="true">${rail(i, c.lane)}</div>
+    <button type="button" aria-expanded="${!!c.open}">
+      <span class="date">${c.date}</span>
+      <span>
+        <span class="line1"><span class="title">${esc(c.title)}</span><span class="repo">${c.repo}</span>${refs}</span>
+        <span class="summary" style="display:block">${esc(c.summary)}</span>
+      </span>
+      <span class="kind"><span>${kind}</span><svg class="chev" viewBox="0 0 10 10" width="10" height="10" aria-hidden="true"><path d="M3.5 1.5 7 5l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span>
+    </button>
+    ${detail(c)}
+  </li>`;
+}).join("");
+
+document.getElementById("log").addEventListener("click", e => {
+  const btn = e.target.closest(".commit > button");
+  if (!btn) return;
+  const li = btn.parentElement;
+  const open = li.classList.toggle("open");
+  btn.setAttribute("aria-expanded", open);
+  drawGraph();
+});
+
+new ResizeObserver(drawGraph).observe(document.getElementById("log"));
+document.fonts.ready.then(drawGraph);
+
+document.querySelector(".filters").addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  const lane = b.dataset.lane;
+  document.querySelectorAll(".filters button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  activeLane = lane;
+  document.querySelectorAll(".commit").forEach(li => li.classList.toggle("dim", lane !== "all" && li.dataset.lane !== lane));
+  drawGraph();
+});
+</script>
+</body>
+</html>
