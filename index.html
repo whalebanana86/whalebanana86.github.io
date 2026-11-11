@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>whalebanana86 · 백엔드 개발자 포트폴리오</title>
-<meta name="description" content="백엔드 개발자 whalebanana86의 포트폴리오. Spring Boot와 NestJS로 만든 IoT 기기 메시징, 실시간 재고, 로그 파이프라인과 AI를 활용해 만든 데스크톱 앱을 커밋 그래프로 정리했습니다.">
+<meta name="description" content="백엔드 개발자 whalebanana86의 포트폴리오. Spring Boot와 NestJS로 만든 IoT 기기 메시징, 실시간 재고, 로그 파이프라인, 서버리스 LLM 스트리밍 API와 AI를 활용해 만든 데스크톱 앱을 커밋 그래프로 정리했습니다.">
 <meta property="og:title" content="whalebanana86 · 백엔드 개발자 포트폴리오">
-<meta property="og:description" content="Spring Boot·NestJS 백엔드가 주력입니다. IoT 메시징, 실시간 재고, 로그 파이프라인, 그리고 AI를 활용해 만든 앱.">
+<meta property="og:description" content="Spring Boot·NestJS 백엔드가 주력입니다. IoT 메시징, 실시간 재고, 로그 파이프라인, LLM 스트리밍 API, 그리고 AI를 활용해 만든 앱.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#0d0e10">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='5' fill='%230d0e10' stroke='%23f0a93b' stroke-width='3'/%3E%3C/svg%3E">
@@ -256,13 +256,13 @@
     <div>
       <p class="prompt">$ <b>git log --graph --all --author=whalebanana86</b></p>
       <h1>흩어진 일을<br>보이게 만드는<br>백엔드 개발자<em>.</em></h1>
-      <p class="lede"><strong>주력은 백엔드입니다.</strong> Spring Boot와 NestJS로 IoT 기기 메시징, 실시간 재고, 로그 파이프라인을 설계하고 구현했습니다. 데스크톱 앱 다섯 개는 AI를 활용해 만들었습니다.</p>
+      <p class="lede"><strong>주력은 백엔드입니다.</strong> Spring Boot와 NestJS로 IoT 기기 메시징, 실시간 재고, 로그 파이프라인을 설계하고 구현했고, 여러 LLM 공급자를 묶은 스트리밍 API를 서버리스로 운영합니다. 데스크톱 앱 다섯 개는 AI를 활용해 만들었습니다.</p>
     </div>
     <aside class="shortlog" aria-label="요약">
       <div>
         <h2>branches</h2>
         <div class="branches">
-          <i style="background:var(--backend)"></i><span>backend</span><span class="role">주력</span><span class="n">5</span>
+          <i style="background:var(--backend)"></i><span>backend</span><span class="role">주력</span><span class="n">6</span>
           <i style="background:var(--workflow)"></i><span>ai-workflow</span><span class="role">실무에 AI 적용</span><span class="n">4</span>
           <i style="background:var(--apps)"></i><span>apps</span><span class="role">AI를 활용해 제작</span><span class="n">5</span>
         </div>
@@ -276,7 +276,7 @@
           <dt>orm</dt><dd>QueryDSL · TypeORM · Prisma</dd>
         </dl>
       </div>
-      <div class="range"><span>2026-04-16</span><span>→</span><span>2026-11-06</span></div>
+      <div class="range"><span>2026-04-16</span><span>→</span><span>2026-11-11</span></div>
     </aside>
   </section>
 
@@ -302,7 +302,7 @@ const S = "assets/shots/";
 
 const BRANCHES = {
   backend: { name: "backend", title: "주력 · 백엔드",
-    desc: "IoT 기기 메시징과 실시간 재고, 시스템 설계 실습, 로그·검색 파이프라인입니다. Spring Boot와 NestJS로 만들었습니다." },
+    desc: "운영 중인 LLM 스트리밍 API, IoT 기기 메시징과 실시간 재고, 시스템 설계 실습, 로그·검색 파이프라인입니다. Spring Boot, NestJS, 서버리스(Cloudflare)로 만들었습니다." },
   workflow: { name: "ai-workflow", title: "실무에 AI를 붙이는 방식",
     desc: "AI에게 맡기되 근거 없이 믿지 않기 위한 규칙과 도구입니다. 검증 서브에이전트는 운영 중인 NestJS API에 적용했습니다." },
   apps: { name: "apps", title: "AI를 활용해 만든 앱",
@@ -312,7 +312,22 @@ const BRANCHES = {
 // Grouped by branch (backend first), newest first inside each branch.
 const COMMITS = [
   /* ---------------- backend ---------------- */
-  { lane: "backend", open: true, head: true, date: "2026-08-24", title: "스마트 벤딩머신 메시징 · 재고", repo: "smart-vending-machine-platform", kind: "case study",
+  { lane: "backend", open: true, head: true, date: "2026-11-11", title: "AI 운명 풀이 · 운명 야시장", repo: "ai-destiny", kind: "live",
+    live: "https://ai-destiny.pages.dev", private: true,
+    summary: "점술 결과를 LLM이 한국어로 풀어 주는 웹 서비스. 백엔드는 여러 LLM 공급자를 묶은 서버리스 스트리밍 프록시",
+    minus: "무료 LLM 한도는 금방 바닥나고, 공급자가 늦거나 실패하면 화면이 멈춘다. 브라우저에 프롬프트를 맡기면 키가 남용된다",
+    plus: "첫 토큰 전에 실패하면 다음 공급자로 넘기고, 브라우저는 카드 ID 같은 값만 보내며 프롬프트는 서버가 만든다",
+    body: "Groq와 Cloudflare Workers AI를 하나의 어댑터 인터페이스로 묶었습니다. 핸들러는 Web 표준 `Request`/`Response`로 짜서 Pages Functions와 로컬 개발 서버가 같은 코드를 씁니다. 모든 방문자가 함께 쓰는 무료 한도는 서버가 KV에 셈해 `GET /api/quota`로 보여 줍니다. 테스트 850여 개는 가짜 `fetch`와 실제 형식의 SSE로 공급자 전환, 타임아웃, 스트림 중간 끊김, 클라이언트 취소를 재현합니다. 화면(React)은 AI를 활용해 만들었습니다.",
+    facts: [["stack", "TypeScript · Cloudflare Pages Functions"], ["llm", "Groq → Workers AI 폴백"], ["store", "Cloudflare KV"], ["test", "Vitest 850여 개"]],
+    flow: { title: "풀이 요청 한 번의 경로", steps: [
+      "브라우저가 `{mode, question, 카드 ID}`만 `POST /api/interpret`로 보냄",
+      "본문을 실제 바이트로 16KB에서 자르고, 없는 ID · 개수 · 질문 길이는 400",
+      "서버가 데이터에서 카드 이름 · 의미를 채워 프롬프트 생성 (임의 프롬프트 중계 안 함)",
+      "Groq 호출, 20초 안에 첫 토큰이 없거나 오류면 Workers AI로 전환",
+      "공급자마다 다른 SSE를 서버에서 풀어 순수 텍스트로 스트리밍",
+      "끝나면 `usage` 토큰 수를 `waitUntil`로 KV 한도 칸에 더함",
+    ] } },
+  { lane: "backend", open: true, date: "2026-08-24", title: "스마트 벤딩머신 메시징 · 재고", repo: "smart-vending-machine-platform", kind: "case study",
     summary: "라즈베리파이 자판기와 Spring Boot 서버를 Amazon MQ로 잇고, 물리 슬롯과 상품을 동적으로 매핑",
     minus: "현장 네트워크가 끊기면 토출 명령이 유실되고, 이상 메시지는 무한 재큐잉된다",
     plus: "TLS AMQP 양방향 연결 + Durable Queue, 포이즌 메시지는 재큐잉 없이 격리",
@@ -501,8 +516,11 @@ function side(c) {
 }
 
 function detail(c) {
-  const facts = [...c.facts, ["repo", `<a href="https://github.com/whalebanana86/${c.repo}">${c.repo} ↗</a>`]]
-    .map(([k, v]) => `<dt>${esc(k)}</dt><dd>${k === "repo" ? v : esc(v)}</dd>`).join("");
+  const links = [];
+  if (c.live) links.push(["live", `<a href="${c.live}">${c.live.replace("https://", "")} ↗</a>`]);
+  links.push(["repo", c.private ? "비공개 · 요청 시 공유" : `<a href="https://github.com/whalebanana86/${c.repo}">${c.repo} ↗</a>`]);
+  const facts = c.facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("") +
+    links.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
   return `<div class="detail">
     <div>
       <div class="diff"><div class="hunk">@@ 문제 → 해결 @@</div><div class="l del">${esc(c.minus)}</div><div class="l add">${esc(c.plus)}</div></div>
