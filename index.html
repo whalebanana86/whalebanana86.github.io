@@ -186,6 +186,7 @@
   .facts a { color: var(--text); text-underline-offset: 3px; text-decoration-color: var(--muted); }
   .shot { margin: 0; }
   .shot img { border: 1px solid var(--rule); }
+  .shot + .panel, .shot + .metric { margin-top: 20px; }
   .shot figcaption { margin-top: 8px; font: 400 12px var(--mono); color: var(--muted); }
   .metric { border: 1px solid var(--rule); background: var(--surface); }
   .metric .big { padding: 18px 18px 6px; font: 700 64px/1 var(--mono); letter-spacing: -.04em; }
@@ -322,7 +323,8 @@ const COMMITS = [
     img: "idea.png", alt: "두둥실랩 화면: 아래 '동네 작은 서점에 손님을 다시 모으는 방법' 구름에서 위로 캠핑, 패션 디자인, 마술 분야의 아이디어 구름이 화살표로 뻗어 나간다",
     caption: "예시 주제로 생성한 결과 화면" },
   { lane: "backend", open: true, date: "2026-11-11", title: "AI 운명 풀이 · 운명 야시장", repo: "ai-destiny", kind: "live",
-    live: "https://ai-destiny.pages.dev", private: true,
+    live: "https://ai-destiny-45d.pages.dev", private: true,
+    img: "destiny.png", alt: "운명 야시장 화면: 밤 호수 위에 종합, 타로, 주역, 오미쿠지, 룬 천막 다섯 개가 떠 있고 아래에 조각배와 오방 나침반이 있다", caption: "실제 사이트 첫 화면 · 밤 호수 위의 다섯 천막",
     summary: "점술 결과를 LLM이 한국어로 풀어 주는 웹 서비스. 백엔드는 여러 LLM 공급자를 묶은 서버리스 스트리밍 프록시",
     minus: "무료 LLM 한도는 금방 바닥나고, 공급자가 늦거나 실패하면 화면이 멈춘다. 브라우저에 프롬프트를 맡기면 키가 남용된다",
     plus: "첫 토큰 전에 실패하면 다음 공급자로 넘기고, 브라우저는 카드 ID 같은 값만 보내며 프롬프트는 서버가 만든다",
@@ -455,14 +457,14 @@ const COMMITS = [
     body: "5초마다 실제 메모리를 재서 1GB를 넘으면 가장 무거운 백그라운드 탭부터 내립니다. 소리·카메라를 쓰는 탭은 남깁니다.",
     facts: [["lang", "Swift"], ["size", "약 600KB"], ["os", "macOS 13+"]],
     metric: { big: "1.00", unit: "GB", cap: "탭 20개를 연 뒤 안정된 메모리", rows: [["탭 중단을 끄면", "3.43 GB"], ["첫 화면 표시 중앙값", "0.56 s"], ["빈 새 탭", "37 MB"]] } },
-  { lane: "apps", date: "2026-11-05", title: "AI Translate", repo: "ai-translate",
+  { lane: "apps", open: true, date: "2026-11-05", title: "AI Translate", repo: "ai-translate",
     summary: "화면 어디서든 원문 자리에 번역을 그리는 메뉴 막대 앱",
     minus: "브라우저 번역은 앱 화면, PDF, 영상 자막에서 안 된다",
     plus: "⌘⇧1로 렌즈를 올리면 원문과 같은 색·크기로 그 자리에 번역한다",
     body: "스크롤하거나 자막이 바뀌면 새로 나온 글만 다시 번역합니다. 엔진은 로컬 LLM, Claude Code, Codex 중에서 고릅니다.",
     facts: [["lang", "Swift"], ["commits", "74"], ["os", "macOS 15+"]],
     img: "translate.png", alt: "원문 화면과 번역 렌즈를 올린 화면 비교" },
-  { lane: "apps", date: "2026-10-29", title: "이걸내가", repo: "ai-worklog", tag: "v1.8.0",
+  { lane: "apps", open: true, date: "2026-10-29", title: "이걸내가", repo: "ai-worklog", tag: "v1.8.0",
     summary: "AI와 함께한 일을 날짜·프로젝트별로 모아 보는 맥 앱",
     minus: "그래서 내가 뭘 했더라?",
     plus: "흩어진 AI 대화를 모아 \"이날 한 일\" 몇 줄로 줄여 보여 준다",
@@ -517,11 +519,12 @@ function drawGraph() {
 }
 
 function side(c) {
-  if (c.img) return `<figure class="shot"><img src="${S + c.img}" alt="${esc(c.alt)}" loading="lazy"><figcaption>${esc(c.caption || "지어낸 예시 데이터로 찍은 화면")}</figcaption></figure>`;
-  if (c.metric) return `<div class="metric"><div class="big">${c.metric.big}<small>${c.metric.unit}</small></div><div class="cap">${esc(c.metric.cap)}</div><table>${c.metric.rows.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("")}</table></div>`;
-  if (c.table) return `<div class="panel"><div class="ph">${esc(c.table.title)}</div><table>${c.table.rows.map(r => `<tr><td>${esc(r[0])}</td><td>${fmt(r[1])}</td></tr>`).join("")}</table></div>`;
-  if (c.flow) return `<div class="panel"><div class="ph">${esc(c.flow.title)}</div><ol>${c.flow.steps.map(s => `<li><span>${fmt(s)}</span></li>`).join("")}</ol></div>`;
-  return "";
+  const shot = c.img ? `<figure class="shot"><img src="${S + c.img}" alt="${esc(c.alt)}" loading="lazy"><figcaption>${esc(c.caption || "지어낸 예시 데이터로 찍은 화면")}</figcaption></figure>` : "";
+  let panel = "";
+  if (c.metric) panel = `<div class="metric"><div class="big">${c.metric.big}<small>${c.metric.unit}</small></div><div class="cap">${esc(c.metric.cap)}</div><table>${c.metric.rows.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("")}</table></div>`;
+  else if (c.table) panel = `<div class="panel"><div class="ph">${esc(c.table.title)}</div><table>${c.table.rows.map(r => `<tr><td>${esc(r[0])}</td><td>${fmt(r[1])}</td></tr>`).join("")}</table></div>`;
+  else if (c.flow) panel = `<div class="panel"><div class="ph">${esc(c.flow.title)}</div><ol>${c.flow.steps.map(s => `<li><span>${fmt(s)}</span></li>`).join("")}</ol></div>`;
+  return shot + panel;
 }
 
 function detail(c) {
